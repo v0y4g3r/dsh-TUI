@@ -8,6 +8,16 @@
 
 export const isMac = process.platform === 'darwin'
 
+/** The function-key flags carried by parsed key events. */
+const FUNCTION_KEY_FLAGS = ['f1', 'f2', 'f3', 'f4', 'f5', 'f6', 'f7', 'f8', 'f9', 'f10', 'f11', 'f12'] as const
+
+/** True when the press is one of F1–F12 (used by modal guards). */
+export function isFunctionKey(
+  key: Partial<Record<(typeof FUNCTION_KEY_FLAGS)[number], boolean>>,
+): boolean {
+  return FUNCTION_KEY_FLAGS.some(name => key[name] === true)
+}
+
 /** True when the key event carries the platform's "primary" modifier. */
 export function isMod(key: { ctrl?: boolean; super?: boolean }): boolean {
   return !!key.ctrl || (isMac && !!key.super)

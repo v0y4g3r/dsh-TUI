@@ -40,7 +40,7 @@ import { isBootSafeCommand, isHiddenCommandName, isLocalCommandName, isUnavailab
 import { appendHistory, HISTORY_LIMIT, historyProjectKey, loadHistoryOldestFirst } from '../history.js'
 import { mentionAtCaret } from '../utils/mentions.js'
 import { preserveSelection, type FileCandidate } from '../utils/fileSuggestions.js'
-import { isMod } from '../utils/modifiers.js'
+import { isFunctionKey, isMod } from '../utils/modifiers.js'
 import { actionMatches } from '../utils/keymap.js'
 import { CommandSuggestions } from './CommandSuggestions.js'
 import { FileSuggestions } from './FileSuggestions.js'
@@ -2661,7 +2661,7 @@ export function PromptInput({
     // inserts visibly.
     // Swallow here before editor/submit/interrupt branches can mutate hidden
     // composer or working-turn state; plain typing still dismisses Help below.
-    if (helpOpen && !key.escape && (key.ctrl || key.meta || key.super || key.return || input.includes('\n') || input.includes('\r'))) {
+    if (helpOpen && !key.escape && (key.ctrl || key.meta || key.super || key.return || isFunctionKey(key) || input.includes('\n') || input.includes('\r'))) {
       event.stopImmediatePropagation()
       return
     }
@@ -2760,6 +2760,17 @@ export function PromptInput({
         return
       }
       submitText(line)
+      return
+    }
+    if (!key.return && actionMatches('submit', input, key)) {
+      // Submit is a combo, not necessarily Enter: F1–F12 (or any other
+      // non-return key) bound to `submit` must send here too. Enter variants
+      // are handled by the return branches below.
+      if (expandedRef.current) {
+        submitFromEditor()
+      } else {
+        handleEnter()
+      }
       return
     }
     if (key.return && (isMod(key) || key.meta) && actionMatches('submit', input, key)) {

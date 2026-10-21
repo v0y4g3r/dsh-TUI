@@ -713,14 +713,14 @@ export const SHORTCUT_FIELD_META: Record<ShortcutActionId, { label: string; zh: 
   newline: {
     label: 'Newline shortcut',
     zh: '换行快捷键',
-    hintEn: d => `Insert a newline in the composer. Accepts \`enter\` / \`shift+enter\`. Default: ${d}.`,
-    hintZh: d => `在输入框插入换行（可填 \`enter\` / \`shift+enter\`）。默认 ${d}。`,
+    hintEn: d => `Insert a newline in the composer. Accepts \`enter\` / \`shift+enter\` / \`f1\`–\`f12\`. Default: ${d}.`,
+    hintZh: d => `在输入框插入换行（可填 \`enter\` / \`shift+enter\` / \`f1\`–\`f12\`）。默认 ${d}。`,
   },
   submit: {
     label: 'Submit shortcut',
     zh: '发送快捷键',
-    hintEn: d => `Send the composer (steer while the turn runs). Accepts \`enter\`; swap with newline by setting submit to ctrl+enter first. Default: ${d}.`,
-    hintZh: d => `发送输入框内容（回合运行中按 steer 投递）。可填 \`enter\`；想与换行互换时先把发送改成 ctrl+enter。默认 ${d}。`,
+    hintEn: d => `Send the composer (steer while the turn runs). Accepts \`enter\` / \`f1\`–\`f12\`; swap with newline by setting submit to ctrl+enter first. Default: ${d}.`,
+    hintZh: d => `发送输入框内容（回合运行中按 steer 投递）。可填 \`enter\` / \`f1\`–\`f12\`；想与换行互换时先把发送改成 ctrl+enter。默认 ${d}。`,
   },
   lineStart: {
     label: 'Line start shortcut',

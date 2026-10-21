@@ -91,7 +91,7 @@ dsh-tui
 | `Esc`（工作 + 有 pending） | 中断回合并立即重投 pending 消息 |
 | 工作中的 `/btw …` | Enter 直接执行（侧问永不打断主回合） |
 
-> 发送与换行都可在 `/settings → 快捷键` 里重映射：默认 `Enter` 发送，`Shift+Enter` / `Ctrl+J` / `Option+Enter` 换行。想反过来（Enter 换行、Ctrl+Enter 发送）时，先把「发送快捷键」改成 `ctrl+enter`，再把「换行快捷键」改成 `enter`。
+> 发送与换行都可在 `/settings → 快捷键` 里重映射：默认 `Enter` 发送，`Shift+Enter` / `Ctrl+J` / `Option+Enter` 换行；也可绑定 `F1`–`F12` 这类功能键。想反过来（Enter 换行、Ctrl+Enter 发送）时，先把「发送快捷键」改成 `ctrl+enter`，再把「换行快捷键」改成 `enter`。
 
 回合运行中的 `/` 浮窗按「对当前对话的影响」分区：不影响的命令在上（原样式），会被门禁拦下 / 会打断或替换对话 / 会 steer 的沉到下方、整行变灰（`subtle`，不额外插标题行）。灰区不阻止使用：选中执行后该门禁的门禁、该 steer 的 steer。回合运行中只有两种输入会加塞：不构成命令的普通文本，以及**直接调用技能**的手势（`/技能名 …`，浮窗里同样按「会 steer」沉到灰区）。
 
@@ -596,7 +596,7 @@ dsh-tui 自身区块在 0.1.7 写入当前 profile 的 `cordis.patch.yml`，旧�
 | pageMargin | 页边距：整屏相对终端四边向里缩。预设 none / slim / normal（默认）/ roomy，或自定义 `NxM`（细节见下）。立即生效 |
 | foldTerminalCommand | 折叠终端命令（默认关）：终端卡（Bash/PowerShell）多行命令折成首行 + 计数；`Ctrl+O` 或点击卡片展开 |
 | expandEditor | 全屏草稿编辑（默认开）：输入行尾 `⛶` 或 `Ctrl+Shift+E` 展开成整屏编辑器；`Ctrl+Enter` 发送、`Esc` 收起（草稿还在）；关掉后入口不显示 |
-| shortcuts.* | 快捷键重映射（/settings 的**快捷键**子页）：`newline` / `submit` / `lineStart` / `lineEnd` / `wordLeft` / `wordRight` 以及粘贴、历史、侧栏等。`lineStart` 与 `showAll` 默认不绑定（`Ctrl+A` 留给子代理面板，`Home` 始终可用；隐藏消息可点分隔行）。一行填一个或多个 `ctrl+`/`alt+` 组合，逗号分隔；留空恢复默认。发送与换行额外接受 `enter` / `shift+enter` |
+| shortcuts.* | 快捷键重映射（/settings 的**快捷键**子页）：`newline` / `submit` / `lineStart` / `lineEnd` / `wordLeft` / `wordRight` 以及粘贴、历史、侧栏等。`lineStart` 与 `showAll` 默认不绑定（`Ctrl+A` 留给子代理面板，`Home` 始终可用；隐藏消息可点分隔行）。一行填一个或多个 `ctrl+`/`alt+` 组合，逗号分隔；留空恢复默认。发送与换行额外接受 `enter` / `shift+enter` 与 `f1`–`f12` 功能键 |
 | statusBar.* | 上表全部状态栏开关（compact/model/thinking/cwd/contextUsage/cache/tokens/cost/tps/gitBranch/sessionTitle/sessionId/mode/contextBar/activity/trajectory/pluginFields/pluginFieldsOrder；statusBar.sessionId 是底栏显示开关，与 cordis 的启动 sessionId 无关；pluginFieldsOrder 是插件字段名单：`''`=不显示、`*`=全部、`a,b;c;d`=三组即三槽） |
 
 **effortDefault**：模型没有该档时自动就近降级并弹提示；优先级 settings 用户层 > 上次 `/effort`

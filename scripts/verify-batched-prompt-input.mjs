@@ -316,6 +316,31 @@ check(
 )
 resetKeymapOverrides()
 
+// Enter inserts a newline; F10 / Alt+Enter submit (the user-facing mapping).
+setKeymapOverrides({ newline: 'enter, shift+enter, ctrl+j', submit: 'f10, alt+enter' })
+const beforeFunctionKeys = submitted.length
+stdin.write('a')
+await sleep(100) // 固定窗:pacing 按键分段步间
+stdin.write('\r')
+await sleep(100) // 固定窗:pacing 按键分段步间
+stdin.write('b')
+await sleep(100) // 固定窗:pacing 按键分段步间
+stdin.write('\x1b[21~')
+check(
+  'F10 submits the draft while Enter inserts a newline',
+  await settled(() => submitted.length === beforeFunctionKeys + 1 && submitted.at(-1) === 'a\nb'),
+  JSON.stringify(submitted.at(-1)),
+)
+stdin.write('c')
+await sleep(100) // 固定窗:pacing 按键分段步间
+stdin.write('\x1b\r')
+check(
+  'Alt+Enter also submits',
+  await settled(() => submitted.length === beforeFunctionKeys + 2 && submitted.at(-1) === 'c'),
+  JSON.stringify(submitted.at(-1)),
+)
+resetKeymapOverrides()
+
 instance.unmount()
 
 if (failed > 0) {

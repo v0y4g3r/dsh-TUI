@@ -77,6 +77,9 @@ check('parse: escape combos refused', parseCombo('alt+escape') === undefined)
 check('parse: bare enter accepted for submit', parseCombo('enter')?.named === 'return')
 check('parse: shift+enter accepted for newline', parseCombo('shift+enter')?.shift === true && parseCombo('shift+enter')?.named === 'return')
 check('parse: other bare named keys still refused', parseCombo('left') === undefined)
+check('parse: bare f10 accepted', parseCombo('f10')?.named === 'f10')
+check('parse: bare f1 accepted', parseCombo('f1')?.named === 'f1')
+check('parse: f13 refused', parseCombo('f13') === undefined)
 
 // ---- default matching -----------------------------------------------------
 resetKeymapOverrides()
@@ -123,6 +126,13 @@ check('override drops ctrl+v from paste', !actionMatches('paste', 'v', { ctrl: t
 check('multi-combo override: alt+r', actionMatches('history', 'r', { meta: true }))
 check('multi-combo override: ctrl+shift+r', actionMatches('history', 'r', { ctrl: true, shift: true }))
 check('override reflected in display string', effectiveComboString('history') === 'alt+r, ctrl+shift+r', effectiveComboString('history'))
+setKeymapOverrides({ submit: 'f10, alt+enter', newline: 'enter, shift+enter, ctrl+j' })
+check('override: f10 submits', actionMatches('submit', '', { f10: true }))
+check('override: alt+enter submits', actionMatches('submit', '', { return: true, meta: true }))
+check('override: bare enter no longer submits', !actionMatches('submit', '', { return: true }))
+check('override: bare enter inserts a newline', actionMatches('newline', '', { return: true }))
+// Restore the paste/history overrides the reserved-set checks below expect.
+setKeymapOverrides({ paste: 'ctrl+shift+v', editor: 'wat??', history: 'alt+r, ctrl+shift+r' })
 
 // ---- reserved sets --------------------------------------------------------
 const reserved = reservedActionCombos()

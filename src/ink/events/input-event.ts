@@ -28,6 +28,19 @@ export type Key = {
   delete: boolean
   meta: boolean
   super: boolean
+  /** Function keys F1–F12. Optional so hand-built key literals stay valid. */
+  f1?: boolean
+  f2?: boolean
+  f3?: boolean
+  f4?: boolean
+  f5?: boolean
+  f6?: boolean
+  f7?: boolean
+  f8?: boolean
+  f9?: boolean
+  f10?: boolean
+  f11?: boolean
+  f12?: boolean
   /**
    * Pointer column (0-indexed) when the key is a wheel event — the SGR/X10
    * sequence carries the position. Undefined for non-wheel keys.
@@ -78,6 +91,18 @@ function parseKey(keypress: ParsedKey): [Key, string] {
     // protocol CSI u sequences. Distinct from meta (Alt/Option) so
     // bindings like cmd+c can be expressed separately from opt+c.
     super: keypress.super,
+    f1: keypress.name === 'f1',
+    f2: keypress.name === 'f2',
+    f3: keypress.name === 'f3',
+    f4: keypress.name === 'f4',
+    f5: keypress.name === 'f5',
+    f6: keypress.name === 'f6',
+    f7: keypress.name === 'f7',
+    f8: keypress.name === 'f8',
+    f9: keypress.name === 'f9',
+    f10: keypress.name === 'f10',
+    f11: keypress.name === 'f11',
+    f12: keypress.name === 'f12',
     isPasted: keypress.isPasted === true,
     mouseCol: keypress.mouseCol,
     mouseRow: keypress.mouseRow,

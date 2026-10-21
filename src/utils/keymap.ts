@@ -39,6 +39,18 @@ export interface ComboKeyFlags {
   end?: boolean
   pageUp?: boolean
   pageDown?: boolean
+  f1?: boolean
+  f2?: boolean
+  f3?: boolean
+  f4?: boolean
+  f5?: boolean
+  f6?: boolean
+  f7?: boolean
+  f8?: boolean
+  f9?: boolean
+  f10?: boolean
+  f11?: boolean
+  f12?: boolean
 }
 
 /** A parsed `ctrl+shift+p` style combo. */
@@ -69,6 +81,18 @@ const NAMED_KEYS: Record<string, keyof ComboKeyFlags> = {
   end: 'end',
   pageup: 'pageUp',
   pagedown: 'pageDown',
+  f1: 'f1',
+  f2: 'f2',
+  f3: 'f3',
+  f4: 'f4',
+  f5: 'f5',
+  f6: 'f6',
+  f7: 'f7',
+  f8: 'f8',
+  f9: 'f9',
+  f10: 'f10',
+  f11: 'f11',
+  f12: 'f12',
 }
 
 /**
@@ -113,9 +137,10 @@ export function parseCombo(raw: string): ParsedCombo | undefined {
   }
   if (char === undefined && named === undefined) return undefined
   // Bare keys are typing/navigation; a modifier is what makes a shortcut.
-  // Enter is the exception: `submit` names it, and `newline` may claim
-  // Shift+Enter, so both must be spellable without ctrl/alt.
-  if (!ctrl && !meta && named !== 'return') return undefined
+  // Enter and F1–F12 are the exceptions: `submit` names Enter, `newline`
+  // may claim Shift+Enter, and function keys are never typing input.
+  const bareFunctionKey = named !== undefined && /^f(?:[1-9]|1[0-2])$/u.test(named)
+  if (!ctrl && !meta && named !== 'return' && !bareFunctionKey) return undefined
   // Escape is fully owned by the TUI (every Escape arrives with meta set on
   // the input layer), so escape combos can never be unambiguous.
   if (named === 'escape') return undefined
