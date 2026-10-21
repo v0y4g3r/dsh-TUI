@@ -2718,6 +2718,18 @@ export function PromptInput({
       return
     }
 
+    // Menus and the docked-queue selector own Enter even when `newline` is
+    // bound to Enter: accepting a completion or sending docked rows must not
+    // turn into a literal newline. handleEnter owns those paths.
+    if (key.return && (
+      overlayOpen
+      || fileOverlayOpen
+      || (dockSelectedRef.current !== null && value.trim() === '' && dockCount > 0)
+      || (value.trim() === '' && !channel.working && dockCount > 0)
+    )) {
+      handleEnter()
+      return
+    }
     // Newline (remappable via /settings; default Shift+Enter / Ctrl+J /
     // Option+Enter). Legacy terminals deliver bare LF as input `\n` with
     // the enter keypress name, which must keep working whatever the combo
